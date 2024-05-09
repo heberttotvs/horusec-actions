@@ -1,0 +1,27 @@
+name: SecurityPipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  horusec-security:
+    name: Horusec Security
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install Horusec
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest
+      - name: Run Horusec Security
+        run: horusec start -p="./" -e="true"
+
+# Permite que você execute este fluxo de trabalho manualmente a partir da guia Ações
+#  workflow_dispatch:
