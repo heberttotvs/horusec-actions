@@ -26,3 +26,14 @@ jobs:
         run: |
           cd ~/Documentos/devsecops/actions-runner/_work/horusec-actions/horusec-actions/.github/workflows
           docker build -t horusec-custom .
+  run-horusec:
+    name: Run Horusec
+    runs-on: self-hosted
+    needs: [clone-repository, build-docker-image]  # Garante que os jobs clone-repository e build-docker-image sejam concluídos antes de iniciar este job
+    steps:
+      - name: Set up Docker BuildKit
+        run: export DOCKER_BUILDKIT=0
+        
+      - name: Run Horusec
+        run: |
+          docker run --rm -v "$(pwd)":/workspace horusec-custom horusec start -p . -o=json -O=horusec-report.json --information-severity=true
