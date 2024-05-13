@@ -23,4 +23,6 @@ jobs:
         uses: actions/checkout@v2
       
       - name: Build Docker image
-        run: docker build -t horusec-custom .
+        run: |
+          cd ~/Documentos/devsecops/actions-runner/_work/horusec-actions/horusec-actions/.github/workflows
+          docker build -t horusec-custom .
