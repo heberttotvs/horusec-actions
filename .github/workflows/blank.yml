@@ -33,17 +33,11 @@ on:
 jobs:
   clone-repository:
     name: Clone Bitbucket Repository
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          # Use your Bitbucket repository SSH URL
           repository: git clone git@bitbucket.org:feedz-workspace/feedz-horusec-image.git
-      - name: Configure SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "$BITBUCKET_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan bitbucket.org >> ~/.ssh/known_hosts
+          ssh-key:  /home/hebert.cardoso@sp01.local/.ssh/id_rsa
 
