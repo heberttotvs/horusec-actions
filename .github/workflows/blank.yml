@@ -36,4 +36,7 @@ jobs:
     runs-on: self-hosted  # Usa o runner hospedado em sua máquina local
     steps:
       - name: Clonae Repositorio Bitbucket
-        run: git -c core.sshCommand="ssh -i /home/hebert.cardoso@sp01.local/.ssh/id_rsa" clone git@bitbucket.org:feedz-workspace/feedz-horusec-image.git
+        run: |
+          git -c core.sshCommand="ssh -i /home/hebert.cardoso@sp01.local/.ssh/id_rsa" clone git@bitbucket.org:feedz-workspace/feedz-horusec-image.git
+          ls
+
