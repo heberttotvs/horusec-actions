@@ -1,29 +1,4 @@
-# name: SecurityPipeline
-
-# on:
-#   push:
-#     branches:
-#       - main
-#   pull_request:
-#     branches:
-#       - main
-
-# jobs:
-#   horusec-security:
-#     name: Horusec Security
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Check out code
-#         uses: actions/checkout@v2
-#         with:
-#           fetch-depth: 0
-#       - name: Install Horusec
-#         run: |
-#           curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest
-#       - name: Run Horusec Security
-#         run: horusec start -p . -e="true"
-
-name: Clone Bitbucket Repository
+name: Security Pipe
 
 on:
   push:
@@ -33,10 +8,19 @@ on:
 jobs:
   clone-repository:
     name: Clone Bitbucket Repository
-    runs-on: self-hosted  # Usa o runner hospedado em sua máquina local
+    runs-on: self-hosted
     steps:
-      - name: Clonae Repositorio Bitbucket
+      - name: Clone repository
         run: |
           git -c core.sshCommand="ssh -i /home/hebert.cardoso@sp01.local/.ssh/id_rsa" clone git@bitbucket.org:feedz-workspace/feedz-horusec-image.git
           ls
-
+          
+  build-docker-image:
+    name: Build Docker Image
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Build Docker image
+        run: docker build -t horusec-custom .
