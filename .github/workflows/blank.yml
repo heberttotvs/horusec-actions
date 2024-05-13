@@ -30,14 +30,15 @@ on:
     branches:
       - main
 
-jobs:
-  clone-repository:
-    name: Clone Bitbucket Repository
-    runs-on: self-hosted
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          repository: git clone git@bitbucket.org:feedz-workspace/feedz-horusec-image.git
-          ssh-key:  /home/hebert.cardoso@sp01.local/.ssh/id_rsa
-
+      jobs:
+        clone-repository:
+          name: Clone Bitbucket Repository
+          runs-on: self-hosted  # Usa o runner hospedado em sua máquina local
+          steps:
+            - name: Set custom SSH command
+              run: git config core.sshCommand "ssh -i /home/hebert.cardoso@sp01.local/.ssh/id_rsa -o 'IdentitiesOnly yes'"
+      
+            - name: Checkout code
+              uses: actions/checkout@v2
+              with:
+                repository: git clone git@bitbucket.org:feedz-workspace/feedz-horusec-image.git
